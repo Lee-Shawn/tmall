@@ -150,4 +150,11 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    SELECT <include refid="Base_Column_List" />
+    FROM tmall_user
+    WHERE username = #{username}
+    and password = #{password}
+  </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.tmall.dao;
 
 import com.tmall.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户表
@@ -48,5 +49,7 @@ public interface UserMapper {
      * @return
      */
     int updateByPrimaryKey(User record);
+
+    User selectLogin(@Param("username") String username, @Param("password") String password);
 
 }
