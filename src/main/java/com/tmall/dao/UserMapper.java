@@ -50,6 +50,19 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User record);
 
+    /**
+     * 校验用户名是否存在
+     * @param username
+     * @return
+     */
+    int checkUsername(String username);
+
+    /**
+     * 校验登录时用户名和密码是否正确
+     * @param username
+     * @param password
+     * @return
+     */
     User selectLogin(@Param("username") String username, @Param("password") String password);
 
 }

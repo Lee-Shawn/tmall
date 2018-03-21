@@ -1,5 +1,8 @@
 package com.tmall.common;
 
+/**
+ * 枚举类，定义各种状态
+ */
 public enum ResponseCode {
 
     SUCCESS(0, "SUCCESS"),
