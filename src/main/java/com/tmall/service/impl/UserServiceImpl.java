@@ -43,22 +43,55 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccess("登录成功", user);
     }
 
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     */
     public ServerResponse<String> register(User user) {
-        int resultCount = userMapper.checkUsername(user.getUsername());
-        if (resultCount > 0) {
-            return ServerResponse.createByErrorMessage("用户名已存在");
+        ServerResponse validResponse = this.checkValid(user.getUsername(), Const.USERNAME);
+        if (!validResponse.isSuccess()) {
+            return validResponse;
         }
-        resultCount = userMapper.checkEmail(user.getEmail());
-        if (resultCount > 0) {
-            return ServerResponse.createByErrorMessage("邮箱已被注册");
+        validResponse = this.checkValid(user.getEmail(), Const.EMAIL);
+        if (!validResponse.isSuccess()) {
+            return validResponse;
         }
         user.setRole(Const.Role.ROLE_CUSTOMER);
         // MD5加密
         user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
-        resultCount = userMapper.insert(user);
+        int resultCount = userMapper.insert(user);
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("注册失败");
         }
+
         return ServerResponse.createBySuccessMessage("注册成功");
+    }
+
+    /**
+     * 校验用户名和邮箱
+     * @param str
+     * @param type
+     * @return
+     */
+    public ServerResponse<String> checkValid(String str, String type) {
+        if (StringUtils.isNotBlank(type)) {
+            if (Const.USERNAME.equals(type)) {
+                int resultCount = userMapper.checkUsername(str);
+                if (resultCount > 0) {
+                    return ServerResponse.createByErrorMessage("用户名已存在");
+                }
+            }
+            if (Const.EMAIL.equals(type)) {
+                int resultCount = userMapper.checkEmail(str);
+                if (resultCount > 0) {
+                    return ServerResponse.createByErrorMessage("邮箱已被注册");
+                }
+            }
+        } else {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
+        return ServerResponse.createBySuccessMessage("校验成功");
     }
 }

@@ -62,4 +62,16 @@ public class UserController {
         return iUserService.register(user);
     }
 
+    /**
+     * 校验用户名和邮箱
+     * @param str
+     * @param type
+     * @return
+     */
+    @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> checkValid(String str, String type) {
+        return iUserService.checkValid(str, type);
+    }
+
 }

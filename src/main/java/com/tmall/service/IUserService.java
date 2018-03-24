@@ -22,4 +22,12 @@ public interface IUserService {
      * @return
      */
     ServerResponse<String> register(User user);
+
+    /**
+     * 校验用户名和邮箱
+     * @param str
+     * @param type
+     * @return
+     */
+    ServerResponse<String> checkValid(String str, String type);
 }
