@@ -169,4 +169,10 @@
     WHERE username = #{username}
     and password = #{password}
   </select>
+  
+  <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+    SELECT question
+    FROM tmall_user
+    WHERE username = #{username}
+  </select>
 </mapper>

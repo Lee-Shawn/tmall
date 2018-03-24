@@ -72,4 +72,11 @@ public interface UserMapper {
      */
     User selectLogin(@Param("username") String username, @Param("password") String password);
 
+    /**
+     * 根据用户名查找问题
+     * @param username
+     * @return
+     */
+    String selectQuestionByUsername(String username);
+
 }

@@ -74,4 +74,31 @@ public class UserController {
         return iUserService.checkValid(str, type);
     }
 
+    /**
+     * 获取用户信息
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<User> getUserInfo(HttpSession session) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user != null) {
+            return ServerResponse.createBySuccess(user);
+        }
+
+        return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
+    }
+
+    /**
+     * 忘记密码
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "forget_get_question.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> forgetGetQuestion(String username) {
+        return iUserService.selectQuestion(username);
+    }
+
 }

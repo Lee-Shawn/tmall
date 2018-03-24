@@ -94,4 +94,21 @@ public class UserServiceImpl implements IUserService {
 
         return ServerResponse.createBySuccessMessage("校验成功");
     }
+
+    /**
+     * 找回密码的提示问题
+     * @param username
+     * @return
+     */
+    public ServerResponse<String> selectQuestion(String username) {
+        ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
+        if (validResponse.isSuccess()) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+        String question = userMapper.selectQuestionByUsername(username);
+        if (StringUtils.isNotBlank(question)) {
+            return ServerResponse.createBySuccess(question);
+        }
+        return ServerResponse.createByErrorMessage("找回密码问题的答案为空");
+    }
 }
