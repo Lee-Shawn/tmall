@@ -157,6 +157,12 @@
     WHERE username = #{username}
   </select>
 
+  <select id="checkEmail" resultType="int" parameterType="string">
+    SELECT count(1)
+    FROM tmall_user
+    WHERE email = #{email}
+  </select>
+
   <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
     SELECT <include refid="Base_Column_List" />
     FROM tmall_user

@@ -15,4 +15,11 @@ public interface IUserService {
      * @return
      */
     ServerResponse<User> login(String username, String password);
+
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     */
+    ServerResponse<String> register(User user);
 }

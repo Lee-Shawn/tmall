@@ -58,6 +58,13 @@ public interface UserMapper {
     int checkUsername(String username);
 
     /**
+     * 校验用户邮箱
+     * @param email
+     * @return
+     */
+    int checkEmail(String email);
+
+    /**
      * 校验登录时用户名和密码是否正确
      * @param username
      * @param password
