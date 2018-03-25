@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * 用户接口实现类
  */
@@ -110,5 +112,14 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createBySuccess(question);
         }
         return ServerResponse.createByErrorMessage("找回密码问题的答案为空");
+    }
+
+    public ServerResponse<String> checkAnswer(String username, String question, String answer) {
+        int resultCount = userMapper.checkAnswer(username, question, answer);
+        if (resultCount > 0) {
+            String forgetToken = UUID.randomUUID().toString();
+
+        }
+        return null;
     }
 }

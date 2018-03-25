@@ -37,4 +37,13 @@ public interface IUserService {
      * @return
      */
     ServerResponse<String> selectQuestion(String username);
+
+    /**
+     * 提示问题与答案
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
+    ServerResponse<String> checkAnswer(String username, String question, String answer);
 }

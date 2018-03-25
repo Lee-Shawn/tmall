@@ -175,4 +175,12 @@
     FROM tmall_user
     WHERE username = #{username}
   </select>
+  
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    SELECT count(1)
+    FROM tmall_user
+    WHERE username = #{username}
+    and question = #{question}
+    and answer = #{answer}
+  </select>
 </mapper>
