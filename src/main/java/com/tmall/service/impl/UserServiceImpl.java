@@ -2,6 +2,7 @@ package com.tmall.service.impl;
 
 import com.tmall.common.Const;
 import com.tmall.common.ServerResponse;
+import com.tmall.common.TokenCache;
 import com.tmall.dao.UserMapper;
 import com.tmall.pojo.User;
 import com.tmall.service.IUserService;
@@ -114,12 +115,21 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("找回密码问题的答案为空");
     }
 
+    /**
+     * 问题答案校验
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
         int resultCount = userMapper.checkAnswer(username, question, answer);
         if (resultCount > 0) {
+            // 说明问题及问题答案是这个用户的并且是正确的
             String forgetToken = UUID.randomUUID().toString();
-
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX+username, forgetToken);
+            return ServerResponse.createBySuccess(forgetToken);
         }
-        return null;
+        return ServerResponse.createByErrorMessage("问题答案错误");
     }
 }
