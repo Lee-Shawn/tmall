@@ -96,4 +96,12 @@ public interface UserMapper {
      */
     int updatePasswordByUsername(@Param("username") String username, @Param("passwordNew") String passwordNew);
 
+    /**
+     * 校验当前密码
+     * @param password
+     * @param userId
+     * @return
+     */
+    int checkPassword(@Param("password") String password, @Param("userId") Integer userId);
+
 }

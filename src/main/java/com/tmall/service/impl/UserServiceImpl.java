@@ -134,7 +134,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     * 重置密码
+     * 重置密码（忘记密码）
      * @param username
      * @param passwordNew
      * @param forgetToken
@@ -162,5 +162,26 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("token错误，请重新获取修改密码的token");
         }
         return ServerResponse.createByErrorMessage("修改密码失败");
+    }
+
+    /**
+     * 重置密码（登录状态）
+     * @param passwordOld
+     * @param passwordNew
+     * @param user
+     * @return
+     */
+    public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
+        // 防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id,那么结果就是true啦count>0;
+        int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
+        if (resultCount == 0) {
+            return ServerResponse.createByErrorMessage("密码错误");
+        }
+        user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
+        int updateCount = userMapper.updateByPrimaryKeySelective(user);
+        if (updateCount > 0) {
+            return ServerResponse.createBySuccessMessage("修改密码成功");
+        }
+        return ServerResponse.createByErrorMessage("重置密码失败");
     }
 }

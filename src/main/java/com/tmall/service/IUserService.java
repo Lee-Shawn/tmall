@@ -48,11 +48,20 @@ public interface IUserService {
     ServerResponse<String> checkAnswer(String username, String question, String answer);
 
     /**
-     * 重置密码
+     * 重置密码（忘记密码）
      * @param username
      * @param passwordNew
      * @param forgetToken
      * @return
      */
     ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken);
+
+    /**
+     * 重置密码（登录状态）
+     * @param passwordOld
+     * @param passwordNew
+     * @param user
+     * @return
+     */
+    ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user);
 }

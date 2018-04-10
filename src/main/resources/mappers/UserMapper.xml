@@ -186,7 +186,14 @@
   
   <update id="updatePasswordByUsername" parameterType="map">
     UPDATE tmall_user
-    SET pas
+    SET password = #{passwordNew}, update_time = now()
     WHERE username = #{username}
   </update>
+
+  <select id="checkPassword" parameterType="map" resultType="int">
+    SELECT count(1)
+    FROM tmall_user
+    WHERE password = #{password}
+    and id = #{userId}
+  </select>
 </mapper>
