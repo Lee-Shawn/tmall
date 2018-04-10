@@ -183,4 +183,10 @@
     and question = #{question}
     and answer = #{answer}
   </select>
+  
+  <update id="updatePasswordByUsername" parameterType="map">
+    UPDATE tmall_user
+    SET pas
+    WHERE username = #{username}
+  </update>
 </mapper>

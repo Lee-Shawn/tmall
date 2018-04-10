@@ -46,4 +46,13 @@ public interface IUserService {
      * @return
      */
     ServerResponse<String> checkAnswer(String username, String question, String answer);
+
+    /**
+     * 重置密码
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
+     */
+    ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken);
 }
