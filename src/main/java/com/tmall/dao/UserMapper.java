@@ -104,4 +104,12 @@ public interface UserMapper {
      */
     int checkPassword(@Param("password") String password, @Param("userId") Integer userId);
 
+    /**
+     * 根据用户ID校验邮箱
+     * @param email
+     * @param userId
+     * @return
+     */
+    int checkEmailByUserId(@Param("email") String email, @Param("userId") Integer userId);
+
 }
