@@ -1,6 +1,7 @@
 package com.tmall.controller.portal;
 
 import com.tmall.common.Const;
+import com.tmall.common.ResponseCode;
 import com.tmall.common.ServerResponse;
 import com.tmall.pojo.User;
 import com.tmall.service.IUserService;
@@ -164,5 +165,20 @@ public class UserController {
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
         return response;
+    }
+
+    /**
+     * 获取用户信息
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<User> getInformation(HttpSession session) {
+        User currentUser = (User)session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登录，需要登录status=10");
+        }
+        return iUserService.getInformation(currentUser.getId());
     }
 }
