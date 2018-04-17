@@ -1,5 +1,7 @@
 package com.tmall.service.impl;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.tmall.common.ServerResponse;
 import com.tmall.dao.CategoryMapper;
 import com.tmall.pojo.Category;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service("iCategoryService")
 public class CategoryServiceImpl implements ICategoryService {
@@ -77,6 +80,43 @@ public class CategoryServiceImpl implements ICategoryService {
             logger.info("未找到当前分类的子分类");
         }
         return ServerResponse.createBySuccess(categoryList);
+    }
+
+    /**
+     * 根据ID查询子分类
+     * @param categoryId
+     * @return
+     */
+    public ServerResponse selectCategoryAndChildrenById(Integer categoryId) {
+        Set<Category> categorySet = Sets.newHashSet();
+        findChildrenCategory(categorySet, categoryId);
+
+        List<Integer> categoryIdList = Lists.newArrayList();
+        if (categoryId != null) {
+            for (Category categoryItem : categorySet) {
+                categoryIdList.add(categoryItem.getId());
+            }
+        }
+        return ServerResponse.createBySuccess(categoryIdList);
+    }
+
+    /**
+     * 递归查询子节点
+     * @param categorySet
+     * @param categoryId
+     * @return
+     */
+    private Set<Category> findChildrenCategory(Set<Category> categorySet, Integer categoryId) {
+        Category category = categoryMapper.selectByPrimaryKey(categoryId);
+        if (category != null) {
+            categorySet.add(category);
+        }
+        // 查询子节点
+        List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
+        for (Category categoryItem : categoryList) {
+            findChildrenCategory(categorySet, categoryItem.getId());
+        }
+        return categorySet;
     }
 
 }
