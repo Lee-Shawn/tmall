@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 分类模块
+ */
 @Service("iCategoryService")
 public class CategoryServiceImpl implements ICategoryService {
 
