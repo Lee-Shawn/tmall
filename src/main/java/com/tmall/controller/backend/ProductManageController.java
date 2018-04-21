@@ -52,13 +52,13 @@ public class ProductManageController {
      */
     @RequestMapping("set_sale_status.do")
     @ResponseBody
-    public ServerResponse setSaleStatus(HttpSession session, Product product) {
+    public ServerResponse setSaleStatus(HttpSession session, Integer productId, Integer status) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
-            return iProductService.setSaleStatus(product.getId(), product.getStatus());
+            return iProductService.setSaleStatus(productId, status);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作");
         }
