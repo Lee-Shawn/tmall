@@ -22,7 +22,7 @@
     create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tmall_product
     where id = #{id,jdbcType=INTEGER}
@@ -176,10 +176,23 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
+
   <select id="getList" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
-    from tmall_product
-    ORDER BY id ASC
+    FROM tmall_product
+    ORDER BY id asc
+  </select>
+
+  <select id="selectProductByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+    SELECT <include refid="Base_Column_List" />
+    FROM tmall_product
+    <where>
+        <if test="productName != null">
+            and name LIKE #{productName}
+        </if>
+        <if test="productId != null">
+            and id = #{productId}
+        </if>
+    </where>
   </select>
 </mapper>

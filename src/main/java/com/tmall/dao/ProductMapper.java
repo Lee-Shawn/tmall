@@ -1,6 +1,7 @@
 package com.tmall.dao;
 
 import com.tmall.pojo.Product;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -56,5 +57,13 @@ public interface ProductMapper {
      * @return
      */
     List<Product> getList();
+
+    /**
+     * 根据产品名称和ID查询产品
+     * @param productName
+     * @param productId
+     * @return
+     */
+    List<Product> selectProductByNameAndProductId(@Param("productName")String productName, @Param("productId") Integer productId);
 
 }
