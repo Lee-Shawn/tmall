@@ -64,4 +64,24 @@ public class ProductManageController {
         }
     }
 
+    /**
+     * 后台获取商品详情
+     * @param session
+     * @param productId
+     * @return
+     */
+    @RequestMapping("detail.do")
+    @ResponseBody
+    public ServerResponse getDetail(HttpSession session, Integer productId) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录");
+        }
+        if (iUserService.checkAdminRole(user).isSuccess()) {
+            return iProductService.manageProductDetail(productId);
+        } else {
+            return ServerResponse.createByErrorMessage("无权限操作");
+        }
+    }
+
 }
